@@ -12,3 +12,43 @@ JOIN Album ON Track.AlbumId = Album.AlbumId
 GROUP BY Album.AlbumId, Album.Title
 ORDER BY AvgTrackLength_Minutes DESC
 LIMIT 3;
+
+2. Lowest Performing Artists by Record Sales
+---------------------------------------------
+SQL Query:
+SELECT 
+    Artist.Name AS ArtistName,
+    SUM(InvoiceLine.UnitPrice * InvoiceLine.Quantity) AS TotalRevenue
+FROM InvoiceLine
+JOIN Track ON InvoiceLine.TrackId = Track.TrackId
+JOIN Album ON Track.AlbumId = Album.AlbumId
+JOIN Artist ON Album.ArtistId = Artist.ArtistId
+GROUP BY Artist.ArtistId, Artist.Name
+ORDER BY TotalRevenue ASC
+LIMIT 5;
+
+3. Top Customers by Total Purchase Amount
+-----------------------------------------
+SQL Query:
+SELECT 
+    Customer.CustomerId,
+    Customer.FirstName || ' ' || Customer.LastName AS FullName,
+    SUM(Invoice.Total) AS TotalSpent
+FROM Customer
+JOIN Invoice ON Customer.CustomerId = Invoice.CustomerId
+GROUP BY Customer.CustomerId
+ORDER BY TotalSpent DESC
+LIMIT 5;
+
+4. Track Count of Top 10 Artists by Total Releases
+--------------------------------------------------
+SQL Query:
+SELECT 
+    Artist.Name AS ArtistName,
+    COUNT(Track.TrackId) AS TrackCount
+FROM Artist
+JOIN Album ON Artist.ArtistId = Album.ArtistId
+JOIN Track ON Album.AlbumId = Track.AlbumId
+GROUP BY Artist.ArtistId
+ORDER BY TrackCount DESC
+LIMIT 10;
