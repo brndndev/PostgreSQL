@@ -1,0 +1,14 @@
+Digital Music Store SQL Analysis
+==================================
+
+1. Top 3 Records by Highest Average Track Length
+------------------------------------------------
+SQL Query:
+SELECT 
+    Album.Title AS AlbumTitle,
+    AVG(Track.Milliseconds) / 60000.0 AS AvgTrackLength_Minutes
+FROM Track
+JOIN Album ON Track.AlbumId = Album.AlbumId
+GROUP BY Album.AlbumId, Album.Title
+ORDER BY AvgTrackLength_Minutes DESC
+LIMIT 3;
